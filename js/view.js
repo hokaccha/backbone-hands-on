@@ -20,6 +20,8 @@ App.CalendarView = Backbone.View.extend({
   initialize: function() {
     this.current = moment();
     this.render();
+
+    this.listenTo(this.collection, 'add', this.render);
   },
   render: function() {
     var $caption = this.$('caption');
@@ -33,7 +35,16 @@ App.CalendarView = Backbone.View.extend({
     while (currentDay <= endDay) {
       var $tr = $('<tr>').appendTo($tbody);
       for (var i = 0; i < 7; i++) {
-        var $td = $('<td>').text( currentDay.format('MM/DD') ).appendTo($tr);
+        var $date = $('<div class="calendar-date">').text(currentDay.format('MM/DD'));
+        var $list = $('<ul class="calendar-list">');
+        var schedules = this.collection.findByDate(currentDay);
+
+        _.each(schedules, function(model) {
+          var text = model.dateFormat('HH:mm') + ' ' + model.get('title');
+          $('<li>').text(text).appendTo($list);
+        });
+
+        $('<td>').append($date, $list).appendTo($tr);
         currentDay.add(1, 'day');
       }
     }
