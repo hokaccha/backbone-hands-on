@@ -18,3 +18,7 @@ App.Schedule = Backbone.Model.extend({
     return this.get('datetime').format(f);
   }
 });
+
+App.Schedules = Backbone.Collection.extend({
+  model: App.Schedule
+});
