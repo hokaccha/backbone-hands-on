@@ -78,8 +78,28 @@ App.CalendarCellView = Backbone.View.extend({
     var $list = this.$('ul').empty();
 
     _.each(schedules, function(model) {
-      var text = model.dateFormat('HH:mm') + ' ' + model.get('title');
-      $('<li>').text(text).appendTo($list);
+      var item = new App.CalendarItemView({ model: model });
+      $list.append(item.el);
+    }, this);
+  }
+});
+
+App.CalendarItemView = Backbone.View.extend({
+  tagName: 'li',
+
+  template:
+    '<time><%= date %></time>' +
+    '<span><%= title %></span>',
+
+  initialize: function() {
+    this.render();
+  },
+  render: function() {
+    var html = _.template(this.template, {
+      date: this.model.dateFormat('HH:mm'),
+      title: this.model.get('title')
     });
+
+    this.$el.html(html);
   }
 });
