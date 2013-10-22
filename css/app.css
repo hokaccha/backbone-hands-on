@@ -1,0 +1,106 @@
+.calendar-control {
+  position: absolute;
+}
+
+.calendar-control button {
+  background: #428bca;
+  border-radius: 4px;
+  padding: 6px 18px;
+  color: #FFF;
+  box-shadow: none;
+  border: none;
+  font-size: 14px;
+  vertical-align: middle;
+  font-weight: normal;
+  line-height: 1.4;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.calendar-control button:hover {
+  background: #3276b1;
+}
+
+.calendar-control button.calendar-newBtn {
+  background: #5cb85c;
+}
+
+.calendar-control button.calendar-newBtn:hover {
+  background: #47a447;
+}
+
+.calendar {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.calendar caption {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.calendar thead th {
+  background: #666;
+  color: #FFF;
+}
+
+.calendar td,
+.calendar th {
+  border: 1px solid #000;
+}
+
+.calendar td {
+  vertical-align: top;
+  height: 120px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.calendar td.is-outOfCurrent {
+  background: #EFEFEF;
+}
+
+.calendar td.is-today {
+  background: #fff7e4;
+}
+
+.calendar .calendar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar .calendar-list li {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  color: #6b87ff;
+}
+
+.calendar .calendar-list li:hover {
+  color: #ff5268;
+}
+
+.calendar .calendar-date {
+  color: #999;
+  margin-bottom: 3px;
+}
+
+.calendar .calendar-list time {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 11px;
+  font-weight: bold;
+}
+.calendar .calendar-list span {
+  display: inline-block;
+}
