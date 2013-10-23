@@ -3,16 +3,9 @@ window.App = {};
 $(function() {
   var schedules = new App.Schedules();
 
-  $('.createForm').submit(function(e) {
-    e.preventDefault();
-
-    var title = $('input[name="title"]').val();
-    var datetime = $('input[name="datetime"]').val();
-
-    schedules.add({
-      title: title,
-      datetime: moment(datetime)
-    }, { validate: true });
+  var createFormView = new App.CreateFormView({
+    el: '.createForm',
+    collection: schedules
   });
 
   $('.filterForm').submit(function(e) {
