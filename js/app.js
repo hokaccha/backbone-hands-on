@@ -12,4 +12,16 @@ $(function() {
     el: '.calendar',
     collection: schedules
   });
+
+  $('.calendar-prevBtn').click(function() {
+    calendarView.toPrev();
+  });
+
+  $('.calendar-nextBtn').click(function() {
+    calendarView.toNext();
+  });
+
+  $('.calendar-todayBtn').click(function() {
+    calendarView.toToday();
+  });
 });
