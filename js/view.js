@@ -140,10 +140,10 @@ App.FormDialogView = Backbone.View.extend({
     };
 
     if (this.model) {
-      this.model.set(params, { validate: true });
+      this.model.save(params, { validate: true });
     }
     else {
-      this.collection.add(params, { validate: true });
+      this.collection.create(params, { validate: true });
     }
   },
   onRemove: function(e) {

@@ -14,6 +14,10 @@ App.Schedule = Backbone.Model.extend({
       return '日時の形式が不正です';
     }
   },
+  parse: function(attrs) {
+    attrs.datetime = moment(attrs.datetime);
+    return attrs;
+  },
   dateFormat: function(f) {
     return this.get('datetime').format(f);
   }
@@ -21,6 +25,8 @@ App.Schedule = Backbone.Model.extend({
 
 App.Schedules = Backbone.Collection.extend({
   model: App.Schedule,
+
+  localStorage: new Backbone.LocalStorage('calendar'),
 
   findByDate: function(date) {
     var format = 'YYYY-MM-DD';
