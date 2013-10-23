@@ -35,16 +35,11 @@ App.CalendarView = Backbone.View.extend({
     while (currentDay <= endDay) {
       var $tr = $('<tr>').appendTo($tbody);
       for (var i = 0; i < 7; i++) {
-        var $date = $('<div class="calendar-date">').text(currentDay.format('MM/DD'));
-        var $list = $('<ul class="calendar-list">');
-        var schedules = this.collection.findByDate(currentDay);
-
-        _.each(schedules, function(model) {
-          var text = model.dateFormat('HH:mm') + ' ' + model.get('title');
-          $('<li>').text(text).appendTo($list);
+        var cell = new App.CalendarCellView({
+          date: currentDay.clone(),
+          collection: this.collection,
         });
-
-        $('<td>').append($date, $list).appendTo($tr);
+        $tr.append(cell.el);
         currentDay.add(1, 'day');
       }
     }
@@ -60,5 +55,31 @@ App.CalendarView = Backbone.View.extend({
   toToday: function() {
     this.current = moment();
     this.render();
+  }
+});
+
+App.CalendarCellView = Backbone.View.extend({
+  tagName: 'td',
+
+  template:
+    '<div class="calendar-date"><%= date.format("MM/DD") %></div>' +
+    '<ul class="calendar-list"></ul>',
+
+  initialize: function(options) {
+    this.date = options.date;
+    this.render();
+  },
+  render: function() {
+    var html = _.template(this.template, { date: this.date });
+    this.$el.html(html);
+
+    var schedules = this.collection.findByDate(this.date);
+
+    var $list = this.$('ul').empty();
+
+    _.each(schedules, function(model) {
+      var text = model.dateFormat('HH:mm') + ' ' + model.get('title');
+      $('<li>').text(text).appendTo($list);
+    });
   }
 });
