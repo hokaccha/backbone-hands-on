@@ -8,34 +8,8 @@ $(function() {
     collection: schedules
   });
 
-  $('.filterForm').submit(function(e) {
-    e.preventDefault();
-
-    var date = $('input[name="filterDate"]').val();
-    var results = schedules.findByDate(date);
-
-    $('.count').html(results.length + '件の予定があります');
-    $('.list').empty();
-
-    _.each(results, function(model) {
-      var $li = $('<li>').html(
-        model.dateFormat('MM月DD日 HH時mm分') + '：' + model.get('title')
-      );
-      $('.list').append($li);
-    });
-  });
-
-  schedules.on('add', function(model) {
-    $('.count').html(schedules.length + '件の予定があります');
-
-    var $li = $('<li>').html(
-      model.dateFormat('MM月DD日 HH時mm分') + '：' + model.get('title')
-    );
-
-    $('.list').append($li);
-  });
-
-  schedules.on('invalid', function(model, message) {
-    alert(message);
+  var calendarView = new App.CalendarView({
+    el: '.calendar',
+    collection: schedules
   });
 });
