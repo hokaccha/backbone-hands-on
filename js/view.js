@@ -21,7 +21,7 @@ App.CalendarView = Backbone.View.extend({
     this.current = moment();
     this.render();
 
-    this.listenTo(this.collection, 'add', this.render);
+    this.listenTo(this.collection, 'add change', this.render);
   },
   render: function() {
     var $caption = this.$('caption');
@@ -107,18 +107,44 @@ App.CalendarItemView = Backbone.View.extend({
     this.$el.html(html);
   },
   onClick: function() {
-    App.formDialogView.open();
+    App.formDialogView.open(this.model);
   }
 });
 
 App.FormDialogView = Backbone.View.extend({
   events: {
+    'submit form': 'onSubmit',
     'click .dialog-close': 'close'
   },
-  open: function() {
+
+  initialize: function() {
+    this.listenTo(this.collection, 'change', this.close);
+    this.listenTo(this.collection, 'invalid', this.onError);
+  },
+  render: function() {
+    this.$('input[name="title"]').val(this.model.get('title'));
+    this.$('input[name="datetime"]').val(this.model.dateFormat('YYYY-MM-DDTHH:mm'));
     this.$el.show();
+  },
+  open: function(model) {
+    this.model = model;
+    this.render();
   },
   close: function() {
     this.$el.hide();
+  },
+  onSubmit: function(e) {
+    e.preventDefault();
+
+    var title = this.$('input[name="title"]').val();
+    var datetime = this.$('input[name="datetime"]').val();
+
+    this.model.set({
+      title: title,
+      datetime: moment(datetime)
+    }, { validate: true });
+  },
+  onError: function(model, message) {
+    alert(message);
   }
 });
