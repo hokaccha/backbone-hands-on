@@ -104,3 +104,94 @@
 .calendar .calendar-list span {
   display: inline-block;
 }
+
+.dialog {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.dialog .dialog-body {
+  position: relative;
+  height: 250px;
+  width: 400px;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 100px auto 0;
+  background: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.dialog .dialog-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #6b87ff;
+}
+
+.dialog .dialog-close:hover {
+  color: #ff5268;
+}
+
+.dialog-body {
+}
+
+.dialog h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 20px 0 10px;
+}
+
+.dialog input[type="text"] {
+  width: 100%;
+  font-size: 14px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.dialog input[type="datetime-local"] {
+  font-size: 14px;
+}
+
+.dialog .dialog-controll {
+  margin-top: 25px;
+}
+
+.dialog .dialog-controll input[type="submit"],
+.dialog .dialog-controll button.dialog-removeBtn {
+  border-radius: 4px;
+  padding: 6px 18px;
+  color: #FFF;
+  box-shadow: none;
+  border: none;
+  font-size: 14px;
+  vertical-align: middle;
+  font-weight: normal;
+  line-height: 1.4;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.dialog .dialog-controll input[type="submit"] {
+  background: #5cb85c;
+  margin-right: 10px;
+}
+
+.dialog .dialog-controll input[type="submit"]:hover {
+  background: #47a447;
+}
+
+.dialog .dialog-controll button.dialog-removeBtn {
+  background: #d9534f;
+}
+
+.dialog .dialog-controll button.dialog-removeBtn:hover {
+  background: #d2322d;
+}

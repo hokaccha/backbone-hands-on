@@ -91,6 +91,10 @@ App.CalendarItemView = Backbone.View.extend({
     '<time><%= date %></time>' +
     '<span><%= title %></span>',
 
+  events: {
+    'click': 'onClick'
+  },
+
   initialize: function() {
     this.render();
   },
@@ -101,5 +105,20 @@ App.CalendarItemView = Backbone.View.extend({
     });
 
     this.$el.html(html);
+  },
+  onClick: function() {
+    App.formDialogView.open();
+  }
+});
+
+App.FormDialogView = Backbone.View.extend({
+  events: {
+    'click .dialog-close': 'close'
+  },
+  open: function() {
+    this.$el.show();
+  },
+  close: function() {
+    this.$el.hide();
   }
 });
