@@ -26,20 +26,28 @@ App.CalendarView = Backbone.View.extend({
       }
     }
   },
+  moveTo: function(year, month) {
+    this.current = moment({ year: year, month: month - 1 });
+    this.render();
+    this.routeToCurrent();
+  },
   toPrev: function() {
     this.current.subtract(1, 'month');
     this.render();
-    App.router.navigate(this.current.format('YYYY/MM'));
+    this.routeToCurrent();
   },
   toNext: function() {
     this.current.add(1, 'month');
     this.render();
-    App.router.navigate(this.current.format('YYYY/MM'));
+    this.routeToCurrent();
   },
   toToday: function() {
     this.current = moment();
     this.render();
-    App.router.navigate('');
+    App.mediator.trigger('route:change');
+  },
+  routeToCurrent: function() {
+    App.mediator.trigger('route:change', this.current.format('YYYY/MM'));
   }
 });
 
