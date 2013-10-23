@@ -3,21 +3,33 @@ window.App = {};
 App.mediator = _.extend({}, Backbone.Events);
 
 $(function() {
-  var schedules = new App.Schedules();
+  var Router = Backbone.Router.extend({
+    routes: {
+      '*default': 'today'
+    },
+    initialize: function() {
+      this.schedules = new App.Schedules();
+      this.schedules.fetch();
 
-  schedules.fetch();
+      this.calendarView = new App.CalendarView({
+        el: '.calendar',
+        collection: this.schedules
+      });
 
-  var calendarView = new App.CalendarView({
-    el: '.calendar',
-    collection: schedules
+      this.formDialogView = new App.FormDialogView({
+        el: '.dialog',
+        collection: this.schedules
+      });
+
+      this.calendarControlView = new App.CalendarControlView({
+        el: '.calendar-control'
+      });
+    },
+    today: function() {
+      this.calendarView.toToday();
+    }
   });
 
-  var formDialogView = new App.FormDialogView({
-    el: '.dialog',
-    collection: schedules
-  });
-
-  var calendarControlView = new App.CalendarControlView({
-    el: '.calendar-control'
-  });
+  App.router = new Router();
+  Backbone.history.start();
 });
