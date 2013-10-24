@@ -4,6 +4,9 @@ App.CalendarView = Backbone.View.extend({
     this.render();
 
     this.listenTo(this.collection, 'add change remove', this.render);
+    this.listenTo(App.mediator, 'calendar:prev', this.toPrev);
+    this.listenTo(App.mediator, 'calendar:next', this.toNext);
+    this.listenTo(App.mediator, 'calendar:today', this.toToday);
   },
   render: function() {
     var $caption = this.$('caption');
@@ -89,7 +92,7 @@ App.CalendarItemView = Backbone.View.extend({
     this.$el.html(html);
   },
   onClick: function() {
-    App.formDialogView.open(this.model);
+    App.mediator.trigger('dialog:open', this.model);
   }
 });
 
@@ -103,6 +106,7 @@ App.FormDialogView = Backbone.View.extend({
   initialize: function() {
     this.listenTo(this.collection, 'add change remove', this.close);
     this.listenTo(this.collection, 'invalid', this.onError);
+    this.listenTo(App.mediator, 'dialog:open', this.open);
   },
   render: function() {
     if (this.model) {
@@ -151,5 +155,26 @@ App.FormDialogView = Backbone.View.extend({
   },
   onError: function(model, message) {
     alert(message);
+  }
+});
+
+App.CalendarControlView = Backbone.View.extend({
+  events: {
+    'click .calendar-newBtn': 'onClickNew',
+    'click .calendar-prevBtn': 'onClickPrev',
+    'click .calendar-nextBtn': 'onClickNext',
+    'click .calendar-todayBtn': 'onClickToday',
+  },
+  onClickNew: function() {
+    App.mediator.trigger('dialog:open');
+  },
+  onClickPrev: function() {
+    App.mediator.trigger('calendar:prev');
+  },
+  onClickNext: function() {
+    App.mediator.trigger('calendar:next');
+  },
+  onClickToday: function() {
+    App.mediator.trigger('calendar:today');
   }
 });

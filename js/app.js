@@ -1,5 +1,7 @@
 window.App = {};
 
+App.mediator = _.extend({}, Backbone.Events);
+
 $(function() {
   var schedules = new App.Schedules();
 
@@ -16,24 +18,12 @@ $(function() {
     collection: schedules
   });
 
-  App.formDialogView = new App.FormDialogView({
+  var formDialogView = new App.FormDialogView({
     el: '.dialog',
     collection: schedules
   });
 
-  $('.calendar-newBtn').click(function() {
-    App.formDialogView.open();
-  });
-
-  $('.calendar-prevBtn').click(function() {
-    calendarView.toPrev();
-  });
-
-  $('.calendar-nextBtn').click(function() {
-    calendarView.toNext();
-  });
-
-  $('.calendar-todayBtn').click(function() {
-    calendarView.toToday();
+  var calendarControlView = new App.CalendarControlView({
+    el: '.calendar-control'
   });
 });
