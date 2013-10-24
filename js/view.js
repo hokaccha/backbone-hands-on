@@ -21,7 +21,7 @@ App.CalendarView = Backbone.View.extend({
     this.current = moment();
     this.render();
 
-    this.listenTo(this.collection, 'add change', this.render);
+    this.listenTo(this.collection, 'add change remove', this.render);
   },
   render: function() {
     var $caption = this.$('caption');
@@ -114,11 +114,12 @@ App.CalendarItemView = Backbone.View.extend({
 App.FormDialogView = Backbone.View.extend({
   events: {
     'submit form': 'onSubmit',
-    'click .dialog-close': 'close'
+    'click .dialog-close': 'close',
+    'click .dialog-removeBtn': 'onRemove'
   },
 
   initialize: function() {
-    this.listenTo(this.collection, 'change', this.close);
+    this.listenTo(this.collection, 'change remove', this.close);
     this.listenTo(this.collection, 'invalid', this.onError);
   },
   render: function() {
@@ -143,6 +144,13 @@ App.FormDialogView = Backbone.View.extend({
       title: title,
       datetime: moment(datetime)
     }, { validate: true });
+  },
+  onRemove: function(e) {
+    e.preventDefault();
+
+    if (window.confirm('削除しますか？')) {
+      this.model.destroy();
+    }
   },
   onError: function(model, message) {
     alert(message);
