@@ -1,21 +1,3 @@
-App.CreateFormView = Backbone.View.extend({
-  events: {
-    'submit': 'onSubmit'
-  },
-
-  onSubmit: function(e) {
-    e.preventDefault();
-
-    var title = this.$('input[name="title"]').val();
-    var datetime = this.$('input[name="datetime"]').val();
-
-    this.collection.add({
-      title: title,
-      datetime: moment(datetime)
-    }, { validate: true });
-  }
-});
-
 App.CalendarView = Backbone.View.extend({
   initialize: function() {
     this.current = moment();
@@ -119,12 +101,21 @@ App.FormDialogView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.listenTo(this.collection, 'change remove', this.close);
+    this.listenTo(this.collection, 'add change remove', this.close);
     this.listenTo(this.collection, 'invalid', this.onError);
   },
   render: function() {
-    this.$('input[name="title"]').val(this.model.get('title'));
-    this.$('input[name="datetime"]').val(this.model.dateFormat('YYYY-MM-DDTHH:mm'));
+    if (this.model) {
+      this.$('input[name="title"]').val(this.model.get('title'));
+      this.$('input[name="datetime"]').val(this.model.dateFormat('YYYY-MM-DDTHH:mm'));
+      this.$('.dialog-removeBtn').show();
+    }
+    else {
+      this.$('input[name="title"]').val('');
+      this.$('input[name="datetime"]').val('');
+      this.$('.dialog-removeBtn').hide();
+    }
+
     this.$el.show();
   },
   open: function(model) {
@@ -139,11 +130,17 @@ App.FormDialogView = Backbone.View.extend({
 
     var title = this.$('input[name="title"]').val();
     var datetime = this.$('input[name="datetime"]').val();
-
-    this.model.set({
+    var params = {
       title: title,
       datetime: moment(datetime)
-    }, { validate: true });
+    };
+
+    if (this.model) {
+      this.model.set(params, { validate: true });
+    }
+    else {
+      this.collection.add(params, { validate: true });
+    }
   },
   onRemove: function(e) {
     e.preventDefault();

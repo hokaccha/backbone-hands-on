@@ -11,11 +11,6 @@ $(function() {
     { title: '打ち合わせ5', datetime: moment('2013-10-10 14:00') }
   ]);
 
-  var createFormView = new App.CreateFormView({
-    el: '.createForm',
-    collection: schedules
-  });
-
   var calendarView = new App.CalendarView({
     el: '.calendar',
     collection: schedules
@@ -24,6 +19,10 @@ $(function() {
   App.formDialogView = new App.FormDialogView({
     el: '.dialog',
     collection: schedules
+  });
+
+  $('.calendar-newBtn').click(function() {
+    App.formDialogView.open();
   });
 
   $('.calendar-prevBtn').click(function() {
