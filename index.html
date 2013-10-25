@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Backbone.jsの基礎</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/highlight.pack.js"></script>
+<script src="js/custom.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="page top"><div>
+  <h1>Backbone.jsの基礎</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2013/10/24</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>内容</h2>
+  <ol>
+    <li>Backbone.jsを使うと何を解決できるか</li>
+    <li>Backbone.jsの基本的なアーキテクチャ</li>
+    <li>Backbone.jsを使った設計のコツ</li>
+  </ol>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>内容</h2>
+  <ol>
+    <li><strong>Backbone.jsを使うと何を解決できるか</strong></li>
+    <li>Backbone.jsの基本的なアーキテクチャ</li>
+    <li>Backbone.jsを使った設計のコツ</li>
+  </ol>
+</div></div>
+
+<div class="page plain"><div>
+  <iframe width="100%" height="90%" style="margin-top:1em" src="./demo/todo_1/index.html"></iframe>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>よくあるコード</h2>
+
+<pre><code>$(function() {
+  // 要素取得してー
+  var $form = $('.todoForm');
+  var $input = $form.find('input[type="text"]');
+  var $list = $('.todoList');
+
+  // フォームがサブミットされたらー
+  $form.submit(function(e) {
+    e.preventDefault();
+
+    // 要素作って追加ー
+    var text = $input.val();
+    var html = '&lt;li&gt;&lt;input type="checkbox"&gt;' + text + '&lt;/li&gt;';
+    var $li = $(html);
+    $list.append($li);
+
+    // イベントもここで設定しちゃうー
+    $li.find('input[type="checkbox"]').change(function() {
+      $(this).closest('li').toggleClass('complete');
+    });
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>問題点</h2>
+  <ul class="list">
+    <li>仕様変更や機能追加に弱い</li>
+    <li>再利用しづらい</li>
+    <li>分業しづらい</li>
+    <li>テストしづらい</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>つまり</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>規模が大きくなったときに<br>管理しきれなくなる</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>どうすればいいか</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>きちんと設計しよう</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>例えば</h2>
+  <ul class="list">
+    <li>機能ごとにファイルやクラスに分ける</li>
+    <li>再利用しやすいようにモジュール化する</li>
+    <li>モジュール同士を疎結合にする</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>その手助けをするのがBackbone.js</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Backbone.jsが提供・解決すること</h2>
+  <ul class="list">
+    <li>良い設計の土台となる機能</li>
+    <li>役割、機能の切り分けの指針</li>
+    <li>長期的な生産性の向上</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Backbone.jsが提供・解決しないこと</h2>
+  <ul class="list">
+    <li>コード量の削減</li>
+    <li>プログラムの高速化</li>
+    <li>短期的な生産性の向上</li>
+    <li>かっこいいUI</li>
+    <li>設計のベストプラクティス</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>内容</h2>
+  <ol>
+    <li>Backbone.jsを使うと何を解決できるか</li>
+    <li><strong>Backbone.jsの基本的なアーキテクチャ</strong></li>
+    <li>Backbone.jsを使った設計のコツ</li>
+  </ol>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Backbone.jsは<br>MVCフレームワーク</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <ul class="mvclist">
+    <li>Model</li>
+    <li>View</li>
+    <li>Controller</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>大事なのは</h2>
+  <p>これ。<del>MVCという言葉はどうでもいい。</del></p>
+  <ul class="list">
+    <li>Model、Collectionはデータを扱う</li>
+    <li>ViewはDOMを扱う</li>
+    <li>RouterとHistoryはURLとか履歴を扱う</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>基本的な処理の流れ</h2>
+  <ol>
+    <li>Viewがユーザーからの入力を受け取ってModelのデータを更新</li>
+    <li>Modelはデータが変更されたというイベントを発火</li>
+    <li>ViewはModelのイベントを監視して適切にDOMを変更して描画</li>
+  </ol>
+</div></div>
+
+<div class="page plain"><div>
+  <p class="center"><img src="img/02_backbone.png"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>内容</h2>
+  <ol>
+    <li>Backbone.jsを使うと何を解決できるか</li>
+    <li>Backbone.jsの基本的なアーキテクチャ</li>
+    <li><strong>Backbone.jsを使った設計のコツ</strong></li>
+  </ol>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>設計のコツ</h2>
+  <ul class="list">
+    <li>ModelとViewを明確に分ける</li>
+    <li>Viewを疎結合にする</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>最初のTodoのコード</h2>
+  <p class="center"><img src="img/02_view1.png"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>問題点</h2>
+  <ul class="list">
+    <li>データとViewが密結合</li>
+    <li>フォームとリストが密結合</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>こうなるとよい</h2>
+  <p class="center"><img src="img/02_view2.png"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>何がいいのか</h2>
+  <ul class="list">
+    <li>データの管理をModelに任せられる</li>
+    <li>View同士が疎結合になり再利用しやすい</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+<pre><code>// モデル
+var Todos = Backbone.Collection.extend();
+
+// フォーム
+var FormView = Backbone.View.extend({
+  events: {
+    'submit': 'onSubmit'
+  },
+  onSubmit: function(e) {
+    e.preventDefault();
+    this.collection.add({ text: this.$('input[type="text"]').val() });
+  },
+});
+
+// リスト
+var ListView = Backbone.View.extend({
+  initialize: function() {
+    this.collection.on('add', this.render, this);
+  },
+  render: function() {
+    // 描画処理
+  }
+});
+
+// 初期化
+var todos = new Todos();
+new FormView({ collection: todos });
+new ListView({ collection: todos });</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>機能追加</h2>
+  <p>フォーム以外からリストを追加したい</p>
+  <p>これだけ。</p>
+<pre><code>$('.usualTodos li').click(function() {
+  todos.add($(this).text());
+});</code></pre>
+  <p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>既存のコードを変えることなく<br>仕様追加に対応できる！</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>まとめ</h2>
+  <ul class="list">
+    <li>規模が大きいアプリケーションは設計が必要</li>
+    <li>Backbone.jsを使うと設計の一つの指針ができる</li>
+    <li>利用しやすいようにモジュールを分けるのが設計のコツ（しかしこれが難しい）</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Q &amp; A</h2>
+<div><div>
+</body>
+</html>

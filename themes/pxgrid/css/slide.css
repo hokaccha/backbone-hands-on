@@ -1,0 +1,110 @@
+body {
+    font-size: 2.8em;
+    font-family: sans-serif;
+    color: #FFF;
+    margin: 0;
+    padding: 1px 1em;
+    overflow: hidden;
+    background: url(../img/logo.png) no-repeat right bottom #333;
+    background:
+        url(../img/logo.png) no-repeat right bottom,
+        -webkit-gradient(linear, left top, left bottom, from(#222), to(#444)) no-repeat
+        #444;
+}
+ 
+.page > div {
+  padding-bottom: 0.5em;
+}
+
+.wrapper {
+    height: 100%;
+}
+
+.page a:hover {
+    color: #C00;
+}
+
+.page a {
+    color: #14b9ff;
+}
+
+.page em {
+    font-style: normal;
+    font-weight: bold;
+}
+
+.page strong {
+    font-weight: normal;
+    color: #f5394a;
+}
+
+.page p {
+    padding: 0 1em;
+    margin: 1em 0;
+}
+
+.page pre {
+    font-size: 0.8em;
+    line-height: 1.4;
+    color: #000;
+    margin: 1em;
+    padding: 0.5em;
+    border: 2px solid #999;
+    background: #EFEFEF;
+}
+
+.page li {
+    margin: 0.5em 0;
+}
+
+.page ul {
+    list-style: none;
+}
+
+.page .list li {
+    padding-left: 1.3em;
+    background: url('../img/arrow.png') no-repeat 0 0.43em;
+    background-size: 0.75em 0.75em;
+}
+
+.page ol {
+    padding-left: 2.5em;
+}
+
+.top {
+    padding: 0 2em;
+}
+
+.top h1 {
+    font-size: 1.6em;
+    color: #df871e;
+}
+
+.top p {
+    margin: 0.3em 0;
+    padding: 0;
+    font-size: 1.2em;
+}
+
+.plain h2 {
+    border-bottom: 2px solid #df871e;
+    padding: 0.6em 0.3em 0.2em;
+    margin: 0 0 0.3em 0;
+}
+
+.spread {
+    font-size: 2.5em;
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.spread > div {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.spread h2 {
+    font-size: 0.8em;
+}
